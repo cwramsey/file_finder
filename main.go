@@ -11,7 +11,7 @@ import (
 func main() {
 	filename := flag.String("file", "", "Name (or part of) the file you want to find. ex: main.go | main")
 	directory := flag.String("dir", "", "Directory you'd like to search in. ex: /var/www/")
-	recursive := flag.String("recurse", "y", "If you want to recurse into directories ex: y/n")
+	recursive := flag.Bool("recurse", false, "Searches directories recursively")
 	flag.Parse()
 
 	if *filename == "" {
@@ -23,11 +23,11 @@ func main() {
 		*directory = "./"
 	}
 
-	if *recursive == "n" {
-		search(*filename, *directory)
-	} else {
+	if *recursive {
 		dir := []string{*directory}
 		searchRecursively(*filename, dir)
+	} else {
+		search(*filename, *directory)
 	}
 
 }
